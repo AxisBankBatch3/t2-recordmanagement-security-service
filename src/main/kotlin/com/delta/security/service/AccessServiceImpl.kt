@@ -4,6 +4,8 @@ import com.delta.security.model.User
 import com.delta.security.repository.UserRepository
 import com.delta.security.request.PasswordResetRequest
 import com.delta.security.request.SetUpPasswordRequest
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -14,6 +16,8 @@ import java.util.*
 class AccessServiceImpl : AccessService {
     @Autowired
     private val userRepository: UserRepository? = null
+
+    private val logger: Logger = LoggerFactory.getLogger(AccessServiceImpl::class.java)
 
     @Autowired
     var encoder: PasswordEncoder? = null
@@ -76,5 +80,13 @@ class AccessServiceImpl : AccessService {
         } else {
             throw Exception("User not found")
         }
+    }
+
+    override fun signUp(user: User?): String? {
+        logger.info("adding new partner")
+        var newUser = User(user?.fullName, user?.organization, user?.username, user?.mobile, encoder?.encode(user?.password), user?.isAdmin)
+        userRepository?.save(newUser)
+        logger.info("new partner added")
+        return "user added successfully"
     }
 }

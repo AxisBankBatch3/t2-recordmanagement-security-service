@@ -86,4 +86,8 @@ class AuthRestAPIs {
         return accessService!!.getAllDetails();
     }
 
+    @PostMapping("/addpartner")
+    fun adduser(@RequestBody user: User?):String?{
+        return accessService?.signUp(user)
+    }
 }

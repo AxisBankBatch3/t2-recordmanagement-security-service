@@ -39,4 +39,21 @@ class User {
         this.password = password
         this.isAdmin = isAdmin
     }
+
+    constructor(
+        fullName: String?,
+        organization: String?,
+        username: String?,
+        mobile: String?,
+        password: String?,
+        isAdmin: Boolean?
+    ) {
+        this.fullName = fullName
+        this.organization = organization
+        this.username = username
+        this.mobile = mobile
+        this.password = password
+        this.isAdmin = isAdmin!!
+    }
+
 }

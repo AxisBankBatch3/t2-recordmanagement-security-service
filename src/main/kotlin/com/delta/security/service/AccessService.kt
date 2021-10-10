@@ -18,4 +18,6 @@ interface AccessService {
 
     @Throws(Exception::class)
     fun setUpPassword(id: String?, setupPassword: SetUpPasswordRequest?): String?
+
+    fun signUp(user : User? ):String?
 }

@@ -35,10 +35,10 @@ class SecurityApplicationTests {
 	fun getAllDetails() {
 		var data = User()
 
-		data.fullName = "user"
+		data.fullName = "vaibhav"
 		data.organization = "axis"
-		data.username = "user@gmail.com"
-		data.mobile = "9573631086"
+		data.username = "vaibhav@gmail.com"
+		data.mobile = "9573631345"
 		data.isAdmin = false
 
 
