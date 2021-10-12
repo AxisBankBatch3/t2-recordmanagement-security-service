@@ -2,6 +2,8 @@ package com.delta.security.service
 
 import com.delta.security.model.User
 import com.delta.security.repository.UserRepository
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -13,14 +15,16 @@ import javax.transaction.Transactional
 @Service
 class UserDetailsServiceImpl : UserDetailsService {
     @Autowired
-    var userRepository: UserRepository? = null
+    lateinit var userRepository: UserRepository
+
+    private val logger: Logger = LoggerFactory.getLogger(UserDetailsServiceImpl::class.java)
+
 
     @Transactional
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
-        val user: User? = userRepository!!.findByUsername(username)
-            ?.orElseThrow { UsernameNotFoundException("User Not Found with -> username or email : $username") }
-
-        return UserPrinciple.build(user)
+        logger.info("Loading by username")
+        val user: User = userRepository.findByUsername(username)
+        return UserPrincipal.build(user)
     }
 }

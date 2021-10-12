@@ -23,6 +23,8 @@ class User {
 
      var isAdmin = false
 
+
+
     constructor(){
     }
 
@@ -54,6 +56,10 @@ class User {
         this.mobile = mobile
         this.password = password
         this.isAdmin = isAdmin!!
+    }
+
+    override fun toString(): String {
+        return "User(id=$id, fullName=$fullName, organization=$organization, username=$username, mobile=$mobile, password=$password, isAdmin=$isAdmin)"
     }
 
 }
