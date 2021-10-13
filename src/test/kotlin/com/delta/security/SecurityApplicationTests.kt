@@ -87,19 +87,9 @@ class SecurityApplicationTests {
     }
 
 
-    @Test
-    fun existUserByMobileNumberPassTest() {
-        val mobile = "12345"
-        Mockito.`when`(userRepository.existsByMobile(mobile)).thenReturn(true)
-        Assertions.assertTrue(accessService.existUserByMobileNumber(mobile))
-    }
+   
 
-    @Test
-    fun existUserByMobileNumberFailTest() {
-        val mobile = ""
-        Mockito.`when`(userRepository.existsByMobile(mobile)).thenReturn(false)
-        Assertions.assertFalse(accessService.existUserByMobileNumber(mobile))
-    }
+
 
     @Test
     fun findByMobilePassTest() {
