@@ -38,7 +38,7 @@ class AuthRestAPIs {
     var jwtProvider: JwtProvider? = null
 
     @PostMapping("/signin")
-    fun authenticateUser(@RequestBody loginRequest: @Valid LoginForm?): ResponseEntity<*>? {
+    fun authenticateUser(@RequestBody loginRequest: @Valid LoginForm): ResponseEntity<*>? {
         val authentication: Authentication = authenticationManager!!.authenticate(
             UsernamePasswordAuthenticationToken(loginRequest!!.username, loginRequest.password)
         )
@@ -46,15 +46,16 @@ class AuthRestAPIs {
         val jwt: String = jwtProvider!!.generateJwtToken(authentication)
 
         val userDetails = authentication.getPrincipal() as UserDetails
-        val data: Optional<User?>? = userRepository?.findByUsername(loginRequest.username)
+        val userName = loginRequest.username
+        val data: User = userRepository!!.findByUsername(userName)
         return ResponseEntity.ok(
             JwtResponse(
-                data!!.get().id,
-                data.get().fullName,
-                data.get().organization,
+                data.id,
+                data.fullName,
+                data.organization,
                 userDetails.username,
-                data.get().mobile,
-                data.get().isAdmin,
+                data.mobile,
+                data.isAdmin,
                 jwt,
                 "Bearer"
             )
@@ -68,26 +69,26 @@ class AuthRestAPIs {
 	 * accessService.resetPasswordById(id, passwordResetRequest); }
 	 */
     @GetMapping("/existbyemail/{emailId}")
-    fun isEmail(@PathVariable("emailId") emailId: String?): Boolean {
+    fun isEmail(@PathVariable("emailId") emailId: String): Boolean {
         return accessService!!.existByUsername(emailId)!!
     }
 
     @GetMapping("/existByMobile/{mobile}")
-    fun isMobile(@PathVariable("mobile") mobile: String?): Boolean {
+    fun isMobile(@PathVariable("mobile") mobile: String): Boolean {
         return accessService!!.existUserByMobileNumber(mobile)!!
     }
 
     @GetMapping("/findByMobile/{mobile}")
-    fun findUserByMobile(@PathVariable("mobile") mobile: String?): User? {
+    fun findUserByMobile(@PathVariable("mobile") mobile: String): User? {
         return accessService!!.findByMobile(mobile)
     }
     @GetMapping("/policyholders")
-    fun getallclients(): MutableList<User?> {
+    fun getallclients(): MutableList<User> {
         return accessService!!.getAllDetails();
     }
 
     @PostMapping("/addpartner")
-    fun adduser(@RequestBody user: User?):String?{
-        return accessService?.signUp(user)
+    fun adduser(@RequestBody user: User):String{
+        return accessService!!.signUp(user)
     }
 }
